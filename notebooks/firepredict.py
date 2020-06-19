@@ -35,11 +35,14 @@ datepicker = widgets.DatePicker(
     value = date.today()
 )
 
+# Temperature slider, not needed if DarkSky is working
 temperature = widgets.IntSlider(value=85, max=120, min=20, description='Temperature: ')
 temperature.style.handle_color = 'lightblue'
 
+# Humidity slider, not needed if DarkSky is working
 humidity = widgets.IntSlider(value=85, max=120, min=20, description='Humidity: ')
 
+# Latitude slider
 lat = widgets.FloatSlider(value=df_fires.latitude.median(),
                           max=df_fires.latitude.max(),
                           min=df_fires.latitude.min(),
@@ -49,6 +52,7 @@ lat = widgets.FloatSlider(value=df_fires.latitude.median(),
                          )
 lat.style.handle_color = 'lightpink'
 
+# Longitude slider
 lon = widgets.FloatSlider(value=df_fires.longitude.median(),
                           max=df_fires.longitude.max(),
                           min=df_fires.longitude.min(),
@@ -58,12 +62,14 @@ lon = widgets.FloatSlider(value=df_fires.longitude.median(),
                          )
 lon.style.handle_color = 'lightpink'
 
+# Fuel Moisture Picker
 fuel_moist = widgets.Dropdown(
     options=[('Very Dry', 1), ('Dry', 2), ('Moderate', 3), ('Moist', 4)],
     value=1,
-    description='Fuel Moisture Class:',
+    description='Moisture: ',
 )
 
+# Prefire fuel slider
 prefire = widgets.FloatSlider(value=df_fires.prefire_fuel.median(),
                           max=df_fires.prefire_fuel.max(),
                           min=df_fires.prefire_fuel.min(),
@@ -73,6 +79,7 @@ prefire = widgets.FloatSlider(value=df_fires.prefire_fuel.median(),
                          )
 prefire.style.handle_color = 'lightblue'
 
+# Cover Type Picker
 fuel_code = widgets.Dropdown(
     options=[('Herbaceous ', 1), 
              ('Shrub / scrub ', 2),
@@ -91,13 +98,13 @@ fuel_code = widgets.Dropdown(
 button = widgets.Button(description="Predict Fire")
 output = widgets.Output()
 
-# display(button, output)
-
+# Function to determind what happens when Predict Fire button is clicked
 def on_button_clicked(b):
     with output:
         print("Warming up...")
         print("Finding season...")  
-        #get season input
+
+        #getting season input
         def get_season(doy):
             if ((doy >= 80) and (doy <= 172)):
                 s = 0  # spring
@@ -105,16 +112,14 @@ def on_button_clicked(b):
                 s = 1  # summer
             elif ((doy >= 264) and (doy <= 355)):
                 s = 2  # fall
-            #elif ((doy > 355) and (doy < 80)):
-                #s = 3  # winter
             else:
-                s = 3
-             #   raise IndexError("Invalid date")
+                s = 3 # winter
             return s
         
+        # Setting the season input value from datepicker
         season_in = get_season(datepicker.value.timetuple().tm_yday)
         
-        
+        # Pull weather info from DarkSky API
         print("Pulling weather data from DarkSky...")
         def weather_lookup(df, key=RAPIDAPI_KEY, days_before=0, days_after=0):
             data = []
@@ -135,15 +140,59 @@ def on_button_clicked(b):
         fire_predict = fire_predict.append({'datetime': dt, 'latitude': lat.value, 'longitude': lon.value}, ignore_index=True)
         weather_df = pd.DataFrame(weather_lookup(fire_predict))
         
+        # Set outputs from DarkSky API as variables
         temperature_in = weather_df.temperature.min()
         wind_speed_in = weather_df.windSpeed.min()
         humidity_in = weather_df.humidity.min()
         precip_intensity_in = weather_df.precipIntensity.min()
         wind_gust_in = weather_df.windGust.min()
-      
-        print("* * * * Calculating Intinsity...")
+        
+        # function to open estimator & define X
+        def open_estimator(filename) :
+    
+            infile = open(filename,'rb')
+            estimator = pickle.load(infile)
+            infile.close()
+        
+            print ("Model Loaded...")
+            return estimator
+        
+        def find_X (df):
+        
+            features = ['latitude', 'longitude', 'doy','fuelcode', 'fuel_moisture_class', 'prefire_fuel', 'temperature', 'humidity', 'precip_intensity', 
+                     'wind_gust', 'wind_speed']
+            X = df[features]
+            return X
+
+        # load model    
+        model = open_estimator("pipeline.pickle")
+
+        
+        #setting dataframe & X variables
+        app_inputs = pd.DataFrame(columns=['latitude', 'longitude', 'doy','fuelcode', 'fuel_moisture_class', 'prefire_fuel', 'temperature', 'humidity', 'precip_intensity', 
+             'wind_gust', 'wind_speed'])
+
+        app_inputs = app_inputs.append({'latitude': lat.value,
+                                'longitude': lon.value,
+                                'doy': datepicker.value.timetuple().tm_yday,
+                                'fuelcode': fuel_code.value,
+                                'fuel_moisture_class': fuel_moist.value,
+                                'prefire_fuel': prefire.value,
+                                'temperature': temperature_in,
+                                'humidity': humidity_in,
+                                'precip_intensity': precip_intensity_in,
+                                'wind_gust': wind_gust_in,
+                                'wind_speed': wind_speed_in},
+                               ignore_index=True)
+        X = find_X(app_inputs)
+        print("Inputs Loaded...")
+
+        # Calculating Model Results
+        print("Calculating Intinsity...")
+        predicted = model.predict(X)
         print("")
-        print("")
+
+        # Print out Inputs
         print("------Model Input Values------")
         print("Latitude: ", lat.value)
         print("Longitude: ", lon.value)
@@ -157,6 +206,11 @@ def on_button_clicked(b):
         print("Wind Gust: ", wind_gust_in)
         print("Wind Speed: ", wind_speed_in)
         print("-------------------------------")
+        print("")
+        print("----------------")
+        print("|   ",predicted[0],"   |")
+        print("----------------")
+        print("")
         print("")
 
 button.on_click(on_button_clicked)
