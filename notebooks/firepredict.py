@@ -19,11 +19,8 @@ from ipywidgets import TwoByTwoLayout
 from ipywidgets import GridspecLayout
 from IPython.display import display, HTML
 
-
+# Darksky API Key
 RAPIDAPI_KEY  = config.darksky_api1
-
-#Loading Models and Data
-df_fires = pd.read_csv('data/FireIntensity_Model_June12_Clean.csv')
 
 
 # Defining widgets
@@ -43,9 +40,9 @@ temperature.style.handle_color = 'lightblue'
 humidity = widgets.IntSlider(value=85, max=120, min=20, description='Humidity: ')
 
 # Latitude slider
-lat = widgets.FloatSlider(value=df_fires.latitude.median(),
-                          max=df_fires.latitude.max(),
-                          min=df_fires.latitude.min(),
+lat = widgets.FloatSlider(value=35.9013,
+                          max=48.9926,
+                          min=24.5457,
                           description='Latitude: ',
                           readout_format='.4f',
                           step=0.0001,
@@ -53,9 +50,9 @@ lat = widgets.FloatSlider(value=df_fires.latitude.median(),
 lat.style.handle_color = 'lightpink'
 
 # Longitude slider
-lon = widgets.FloatSlider(value=df_fires.longitude.median(),
-                          max=df_fires.longitude.max(),
-                          min=df_fires.longitude.min(),
+lon = widgets.FloatSlider(value=-96.2438,
+                          max=-67.0042,
+                          min=-124.6325,
                           description='Longitude: ',
                           readout_format='.4f',
                           step=0.0001,
@@ -70,9 +67,9 @@ fuel_moist = widgets.Dropdown(
 )
 
 # Prefire fuel slider
-prefire = widgets.FloatSlider(value=df_fires.prefire_fuel.median(),
-                          max=df_fires.prefire_fuel.max(),
-                          min=df_fires.prefire_fuel.min(),
+prefire = widgets.FloatSlider(value=4335.068543,
+                          max=13337.51083,
+                          min=19.61505,
                           description='Prefire Fuel: ',
                           readout_format='.5f',
                           step=0.00001,
