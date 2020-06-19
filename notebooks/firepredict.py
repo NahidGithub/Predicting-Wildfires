@@ -26,7 +26,9 @@ RAPIDAPI_KEY  = config.darksky_api1
 df_fires = pd.read_csv('data/FireIntensity_Model_June12_Clean.csv')
 
 
-#Defining widgets
+# Defining widgets
+
+# Date Picker for selecting the day
 datepicker = widgets.DatePicker(
     description='Fire start: ',
     disabled=False,
@@ -94,29 +96,7 @@ output = widgets.Output()
 def on_button_clicked(b):
     with output:
         print("Warming up...")
-#         print("Finding region on map...")
-#         def haversine_distance(lat1, lon1, lat2, lon2):
-#             r = 6371
-#             phi1 = np.radians(lat1)
-#             phi2 = np.radians(lat2)
-#             delta_phi = np.radians(lat2 - lat1)
-#             delta_lambda = np.radians(lon2 - lon1)
-#             a = np.sin(delta_phi / 2)**2 + np.cos(phi1) * np.cos(phi2) *   np.sin(delta_lambda / 2)**2
-#             res = r * (2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a)))
-#             return np.round(res, 2)
-
-#         distances_km = []
-
-#         for row in df_fires.itertuples(index=False):
-#             distances_km.append(
-#             haversine_distance(lat.value, lon.value, row.latitude, row.longitude)
-#          )
-
-#         df_fires['DistanceFromPoint'] = distances_km
-
-#         fire_region_in = df_fires[df_fires.DistanceFromPoint == df_fires.DistanceFromPoint.min()].fire_region.min()
-#         print('### remove this ###  Region: ',fire_region_in)
-        
+        print("Finding season...")  
         #get season input
         def get_season(doy):
             if ((doy >= 80) and (doy <= 172)):
@@ -133,7 +113,6 @@ def on_button_clicked(b):
             return s
         
         season_in = get_season(datepicker.value.timetuple().tm_yday)
-        print('### remove this ###  Season: ',season_in)
         
         
         print("Pulling weather data from DarkSky...")
@@ -161,19 +140,36 @@ def on_button_clicked(b):
         humidity_in = weather_df.humidity.min()
         precip_intensity_in = weather_df.precipIntensity.min()
         wind_gust_in = weather_df.windGust.min()
-        
-        print('### remove this ###  Weather Data: ')
+      
+        print("* * * * Calculating Intinsity...")
+        print("")
+        print("")
+        print("------Model Input Values------")
+        print("Latitude: ", lat.value)
+        print("Longitude: ", lon.value)
+        print("Day of Year: ", datepicker.value.timetuple().tm_yday)
+        print("Fuelcode: ", fuel_code.value)
+        print("Fuel Moisture Class: ", fuel_moist.value)
+        print("Prefire Fuel: ", prefire.value)
         print("Temperature: ", temperature_in)
         print("Humidity: ", humidity_in)
         print("Precip Intensity: ", precip_intensity_in)
         print("Wind Gust: ", wind_gust_in)
         print("Wind Speed: ", wind_speed_in)
-        
-        print("Calculating Intinsity...")
-        
-        print("Fire is SEVERE!")
+        print("-------------------------------")
+        print("")
 
-fireapp = GridspecLayout(4, 3)
+button.on_click(on_button_clicked)
+
+# Widget used to clear results
+clear = widgets.Button(description="Clear Results")
+def clear_results(b):
+    with output:
+        output.clear_output()
+clear.on_click(clear_results)
+
+# Setting the grid layout for the app
+fireapp = GridspecLayout(50, 3)
 fireapp[0,0] = datepicker
 fireapp[1,0] = lat
 fireapp[2,0] = lon
@@ -181,8 +177,5 @@ fireapp[0,1] = fuel_moist
 fireapp[1,1] = fuel_code
 fireapp[2,1] = prefire
 fireapp[0,2] = button
-
-fire = display(fireapp, output)
-
-button.on_click(on_button_clicked)
-display(output)
+fireapp[1,2] = clear
+fireapp[3:,0:] = output
