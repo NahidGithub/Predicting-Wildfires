@@ -92,8 +92,16 @@ fuel_code = widgets.Dropdown(
     description='Cover Type:',
 )
 
+# Creating Button and Output to start prediction
 button = widgets.Button(description="Predict Fire")
 output = widgets.Output()
+
+# Widget used to clear results
+clear = widgets.Button(description="Clear Results")
+def clear_results(b):
+    with output:
+        output.clear_output()
+clear.on_click(clear_results)
 
 # Function to determind what happens when Predict Fire button is clicked
 def on_button_clicked(b):
@@ -132,6 +140,7 @@ def on_button_clicked(b):
                 data.append(w_dict)
             return data
         
+        # creating dataframe with weather info
         dt = datetime(datepicker.value.year, datepicker.value.month, datepicker.value.day, 12)
         fire_predict = pd.DataFrame(columns=['datetime', 'latitude', 'longitude'])
         fire_predict = fire_predict.append({'datetime': dt, 'latitude': lat.value, 'longitude': lon.value}, ignore_index=True)
@@ -211,13 +220,6 @@ def on_button_clicked(b):
         print("")
 
 button.on_click(on_button_clicked)
-
-# Widget used to clear results
-clear = widgets.Button(description="Clear Results")
-def clear_results(b):
-    with output:
-        output.clear_output()
-clear.on_click(clear_results)
 
 # Setting the grid layout for the app
 fireapp = GridspecLayout(50, 3)
