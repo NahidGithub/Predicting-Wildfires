@@ -1,2 +1,54 @@
 config1.py
 config.py
+notebooks/data/FireIntensity_Model_June12_Clean.csv
+experimental code/weather_23000.csv
+experimental code/weather_30000.csv
+experimental code/weather_40000.csv
+experimental code/weather_50000.csv
+experimental code/weather_58000.csv
+experimental code/weather_63000.csv
+experimental code/weather_71000.csv
+experimental code/weather_80000.csv
+experimental code/weather_86000.csv
+experimental code/weather_92000.csv
+experimental code/weather_96000.csv
+experimental code/weather_150000.csv
+experimental code/weather_160000.csv
+experimental code/weather_170000.csv
+experimental code/weather_200000.csv
+experimental code/weather_230000.csv
+experimental code/weather_270000.csv
+experimental code/weather_300000.csv
+experimental code/weather_350000.csv
+experimental code/weather_600000.csv
+experimental code/weather_750000.csv
+experimental code/fire_lat_lon_data/emclusters2006west.csv
+experimental code/fire_lat_lon_data/Emissions2003_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2004_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2005_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2006East_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2006West_DBScan Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2007_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2008_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2009_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2010_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2011_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2012_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2013_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2014_DBScan_Clusters.csv
+experimental code/fire_lat_lon_data/Emissions2015_DBScan_Clusters.csv
+experimental code/NASA_M6_FullData_ClusterRef_May30.csv
+experimental code/test_weather_output.csv
+experimental code/weather_paid_7200.csv
+experimental code/fire_lat_lon_data/cluster_ref_alldoy_May23.csv
+experimental code/fire_lat_lon_data/nasa_emissions_doycombined_May28.csv
+experimental code/fire_lat_lon_data/weather_df_master_2020429.csv
+experimental code/fire_lat_lon_data/weather_df_master_2020501.csv
+experimental code/fire_lat_lon_data/weather_df_master_2020505.csv
+experimental code/fire_lat_lon_data/weather_df_master_2020509.csv
+experimental code/fire_lat_lon_data/weather_df_master.csv
+experimental code/fire_lat_lon_data/weather_df1.csv
+experimental code/fire_lat_lon_data/.ipynb_checkpoints/weather_df1-checkpoint.csv
+experimental code/woodgulch/ClusterDBScan_Emissions2005.csv
+experimental code/woodgulch/Emissions2005_WoodGulch.csv
+experimental code/woodgulch/NASA2005WoodGulch.csv
