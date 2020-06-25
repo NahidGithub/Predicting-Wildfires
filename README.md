@@ -2,15 +2,10 @@
 Cohort 19 Capstone Project for the Graduate Certificate of Data Science at Georgetown University School of Continuing Studies.
 ## Team
 Marty Hauck - https://www.linkedin.com/in/martyhauck/
-
 John Osire - https://www.linkedin.com/in/john-w-k-osire-621b507/
-
 Mark Harris - swimmer432z@gmail.com
-
 Harold Haugen - https://www.linkedin.com/in/harold-alfred-haugen-jr-cpa-b593832/
-
 Nahid Boustani - https://www.linkedin.com/in/nahid-b-b558564/
-
 Osie David - https://www.linkedin.com/in/osiedavid/
 ## Abstract
 Given the concern with climate change affecting the rise of global temperatures, it is plausible that wildfires
