@@ -23,13 +23,11 @@ wildfires occurring in residential or commercial areas (See diagram below). Henc
 exploring a hypothesis that data science modeling can approximate the intensity of wildfires and provide a tool for public to access this information.
 ## Hypothesis
 We belive that Forest Fire Danger Index will be influenced by:
-– Land Coverage
 
-– Wind
-
-– Humidity
-
-– Temperature
+Land Coverage
+Wind
+Humidity
+Temperature
 
 And thus it is possible to predict the intensity of the fire having information about the factors above.
 ## Data Sources
