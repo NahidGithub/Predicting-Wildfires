@@ -28,7 +28,7 @@ We belive that Forest Fire Danger Index will be influenced by:
 – Humidity
 – Temperature
 And thus it is possible to predict the intensity of the fire having information about the factors above.
-## Data Sources:
+## Data Sources
 - NASA Earth Data
 - USDA Emission Data
 - DarkSky API Weather Data
